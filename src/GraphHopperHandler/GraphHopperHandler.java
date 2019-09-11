@@ -1,3 +1,5 @@
+package GraphHopperHandler;
+
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
@@ -8,24 +10,20 @@ import com.graphhopper.util.GPXEntry;
 import com.graphhopper.util.Instruction;
 import com.graphhopper.util.InstructionList;
 import com.graphhopper.util.PointList;
+import org.apache.log4j.BasicConfigurator;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class Main {
+public class GraphHopperHandler {
+    public GraphHopper hopper;
+    public String graphFolder = "./GHTempFiles";
 
-    public static void main(String[] args) {
-        f();
-    }
-
-    public static void f(){
-        String osmFile = "./assets/Tehran.osm.pbf";
-        String graphFolder = "./output";
-        double latFrom = 35.727389, lonFrom = 51.407537, latTo = 35.733850, lonTo = 51.399460;
-
+    public GraphHopperHandler(String osmFile){
+        BasicConfigurator.configure();
         // create one GraphHopper instance
-        GraphHopper hopper = new GraphHopperOSM().forServer();
+        hopper = new GraphHopperOSM().forServer();
         hopper.setDataReaderFile(osmFile);
         // where to store graphhopper files?
         hopper.setGraphHopperLocation(graphFolder);
@@ -34,7 +32,9 @@ public class Main {
         // now this can take minutes if it imports or a few seconds for loading
         // of course this is dependent on the area you import
         hopper.importOrLoad();
+    }
 
+    public void findRoute(double latFrom, double lonFrom, double latTo, double lonTo){
         // simple configuration of the request object, see the GraphHopperServlet classs for more possibilities.
         GHRequest req = new GHRequest(latFrom, lonFrom, latTo, lonTo).
                 setWeighting("fastest").
@@ -57,10 +57,9 @@ public class Main {
         double distance = path.getDistance();
         long timeInMs = path.getTime();
 
-        System.out.println(pointList);
+        System.out.println("Route Points: \n" + pointList);
 
         InstructionList il = path.getInstructions();
-
         // iterate over every turn instruction
         for (Instruction instruction : il) {
             instruction.getDistance();
@@ -73,6 +72,6 @@ public class Main {
 
         // or get the result as gpx entries:
         List<GPXEntry> list = il.createGPXList();
-        System.out.println("Hello World!");
     }
+
 }
