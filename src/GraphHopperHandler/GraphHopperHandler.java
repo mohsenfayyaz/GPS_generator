@@ -6,19 +6,13 @@ import com.graphhopper.GraphHopper;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.util.GPXEntry;
-import com.graphhopper.util.Instruction;
-import com.graphhopper.util.InstructionList;
-import com.graphhopper.util.PointList;
 import org.apache.log4j.BasicConfigurator;
-
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class GraphHopperHandler {
-    public GraphHopper hopper;
-    public String graphFolder = "./GHTempFiles";
+    private GraphHopper hopper;
+    private String graphFolder = "./GHTempFiles";
 
     public GraphHopperHandler(String osmFile){
         BasicConfigurator.configure();
@@ -34,7 +28,7 @@ public class GraphHopperHandler {
         hopper.importOrLoad();
     }
 
-    public void findRoute(double latFrom, double lonFrom, double latTo, double lonTo){
+    public List<PathWrapper> findRoutes(double latFrom, double lonFrom, double latTo, double lonTo){
         // simple configuration of the request object, see the GraphHopperServlet classs for more possibilities.
         GHRequest req = new GHRequest(latFrom, lonFrom, latTo, lonTo).
                 setWeighting("fastest").
@@ -46,32 +40,36 @@ public class GraphHopperHandler {
         if (rsp.hasErrors()) {
             // handle them!
             // rsp.getErrors()
-            return;
+            return null;
         }
 
-        // use the best path, see the GHResponse class for more possibilities.
-        PathWrapper path = rsp.getBest();
+        return rsp.getAll();
+
+//        // use the best path, see the GHResponse class for more possibilities.
+//        PathWrapper path = rsp.getBest();
 
         // points, distance in meters and time in millis of the full path
-        PointList pointList = path.getPoints();
-        double distance = path.getDistance();
-        long timeInMs = path.getTime();
-
-        System.out.println("Route Points: \n" + pointList);
-
-        InstructionList il = path.getInstructions();
-        // iterate over every turn instruction
-        for (Instruction instruction : il) {
-            instruction.getDistance();
-
-            //...
-        }
-
-        // or get the json
-        List<Map<String, Object>> iList = il.createJson();
-
-        // or get the result as gpx entries:
-        List<GPXEntry> list = il.createGPXList();
+//        PointList pointList = path.getPoints();
+//        double distance = path.getDistance();
+//        long timeInMs = path.getTime();
+//
+//        System.out.println("Route Points: \n" + pointList);
+//
+//        InstructionList il = path.getInstructions();
+//        // iterate over every turn instruction
+//        for (Instruction instruction : il) {
+//            instruction.getDistance();
+//
+//            //...
+//        }
+//
+//        // or get the json
+//        List<Map<String, Object>> iList = il.createJson();
+//
+//        // or get the result as gpx entries:
+//        List<GPXEntry> list = il.createGPXList();
     }
+
+
 
 }

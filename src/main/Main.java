@@ -1,6 +1,6 @@
 package main;
 
-import GraphHopperHandler.GraphHopperHandler;
+import GPSGenerator.GPSGenerator;
 
 public class Main {
 
@@ -8,8 +8,9 @@ public class Main {
         String osmFile = "./assets/Tehran.osm.pbf";
         double latFrom = 35.727389, lonFrom = 51.407537, latTo = 35.733850, lonTo = 51.399460;
 
-        GraphHopperHandler myGHHandler = new GraphHopperHandler(osmFile);
-        myGHHandler.findRoute(latFrom, lonFrom, latTo, lonTo);
+        GPSGenerator myGPSGenerator = new GPSGenerator(osmFile);
+        myGPSGenerator.generate(latFrom, lonFrom, latTo, lonTo, 1, 1);
+
     }
 
 }
