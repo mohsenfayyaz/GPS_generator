@@ -52,6 +52,7 @@ public class GPSGenerator {
             passedDistance = -(pointsDistance - passedDistance);
 
         }
+        samplingPoints.add(currentPoint); // add last point
 
         PathWrapper samplingPath = new PathWrapper();
         samplingPath.setPoints(samplingPoints);
