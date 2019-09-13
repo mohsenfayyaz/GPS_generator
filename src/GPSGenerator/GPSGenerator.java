@@ -1,5 +1,6 @@
 package GPSGenerator;
 
+import GPXHandler.GPXHandler;
 import GraphHopperHandler.GraphHopperHandler;
 import MapViewerHandler.MapViewerHandler;
 import com.graphhopper.PathWrapper;
@@ -10,17 +11,19 @@ import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
 
 import java.awt.*;
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
 public class GPSGenerator {
     private GraphHopperHandler myGHHandler;
-    public GPSGenerator(String osmFile){
+
+    public GPSGenerator(String osmFile) {
         myGHHandler = new GraphHopperHandler(osmFile);
     }
 
-    public void generate(double latFrom, double lonFrom, double latTo, double lonTo, double sampleRateMeters, double noiseStandardDeviation){
+    public void generate(double latFrom, double lonFrom, double latTo, double lonTo, double sampleRateMeters, double noiseStandardDeviation) {
         List<PathWrapper> myPathList = myGHHandler.findRoutes(latFrom, lonFrom, latTo, lonTo);
         for (PathWrapper path : myPathList) {
             System.out.println("-----------");
@@ -35,7 +38,7 @@ public class GPSGenerator {
             new MapViewerHandler().drawRouteOnMap(path, Color.GREEN, "NOISY SAMPLED ROUTE");
 
 
-
+            GPXHandler.generateGpx("gpx.gpx", "gpx", path.getPoints());
         }
 
 
@@ -48,7 +51,7 @@ public class GPSGenerator {
 
         Random rand = new Random();
 
-        while(pointsIterator.hasNext()) {
+        while (pointsIterator.hasNext()) {
             GHPoint3D currentPoint = pointsIterator.next();
             double randDistance = rand.nextGaussian() * noiseStandardDeviation + mean;
             double randBearing = rand.nextDouble() * 360;
@@ -62,7 +65,7 @@ public class GPSGenerator {
     }
 
 
-    private PathWrapper samplePath(PathWrapper path, double sampleRateMeters){
+    private PathWrapper samplePath(PathWrapper path, double sampleRateMeters) {
         PointList samplingPoints = new PointList();
         PointList points = path.getPoints();
         Iterator<GHPoint3D> pointsIterator = points.iterator();
@@ -72,12 +75,12 @@ public class GPSGenerator {
         samplingPoints.add(currentPoint); // add start point
 
         double passedDistance = 0;
-        while(pointsIterator.hasNext()){
+        while (pointsIterator.hasNext()) {
             previousPoint = currentPoint;
             currentPoint = pointsIterator.next();
             double pointsDistance = calcDistance(previousPoint.getLat(), previousPoint.getLon(), currentPoint.getLat(), currentPoint.getLon());
 
-            while(passedDistance + sampleRateMeters < pointsDistance){
+            while (passedDistance + sampleRateMeters < pointsDistance) {
                 passedDistance += sampleRateMeters;
                 GHPoint3D betweenPoint = calcNextPointBetweenPoints(previousPoint.getLat(), previousPoint.getLon(), currentPoint.getLat(), currentPoint.getLon(), passedDistance);
                 samplingPoints.add(betweenPoint);
@@ -92,7 +95,7 @@ public class GPSGenerator {
         return samplingPath;
     }
 
-    private double calcDistance(double latFrom, double lonFrom, double latTo, double lonTo){
+    private double calcDistance(double latFrom, double lonFrom, double latTo, double lonTo) {
         //Prev Point
         Coordinate lat = Coordinate.fromDegrees(latFrom);
         Coordinate lng = Coordinate.fromDegrees(lonFrom);
@@ -108,7 +111,7 @@ public class GPSGenerator {
         return distance;
     }
 
-    private double calcBearing(double latFrom, double lonFrom, double latTo, double lonTo){
+    private double calcBearing(double latFrom, double lonFrom, double latTo, double lonTo) {
         //Prev Point
         Coordinate lat = Coordinate.fromDegrees(latFrom);
         Coordinate lng = Coordinate.fromDegrees(lonFrom);
@@ -123,7 +126,7 @@ public class GPSGenerator {
         return bearing;
     }
 
-    private GHPoint3D calcNextPointBetweenPoints(double latFrom, double lonFrom, double latTo, double lonTo, double distance){
+    private GHPoint3D calcNextPointBetweenPoints(double latFrom, double lonFrom, double latTo, double lonTo, double distance) {
         Coordinate lat = Coordinate.fromDegrees(latFrom);
         Coordinate lng = Coordinate.fromDegrees(lonFrom);
         Point startPoint = Point.at(lat, lng);
@@ -133,7 +136,7 @@ public class GPSGenerator {
         return new GHPoint3D(otherPoint.latitude, otherPoint.longitude, 0);
     }
 
-    private GHPoint3D calcNextPointByBearing(double latFrom, double lonFrom, double bearing, double distance){
+    private GHPoint3D calcNextPointByBearing(double latFrom, double lonFrom, double bearing, double distance) {
         Coordinate lat = Coordinate.fromDegrees(latFrom);
         Coordinate lng = Coordinate.fromDegrees(lonFrom);
         Point startPoint = Point.at(lat, lng);

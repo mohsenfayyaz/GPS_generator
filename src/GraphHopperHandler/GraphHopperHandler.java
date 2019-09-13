@@ -26,6 +26,8 @@ public class GraphHopperHandler {
         // now this can take minutes if it imports or a few seconds for loading
         // of course this is dependent on the area you import
         hopper.importOrLoad();
+
+
     }
 
     public List<PathWrapper> findRoutes(double latFrom, double lonFrom, double latTo, double lonTo){
