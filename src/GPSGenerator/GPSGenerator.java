@@ -1,6 +1,7 @@
 package GPSGenerator;
 
 import GraphHopperHandler.GraphHopperHandler;
+import MapViewerHandler.MapViewerHandler;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.GHPoint3D;
@@ -24,6 +25,9 @@ public class GPSGenerator {
             System.out.println(path.getPoints());
             path = samplePath(path, sampleRateMeters);
             System.out.println(path.getPoints());
+
+            MapViewerHandler mapViewerHandler = new MapViewerHandler();
+            mapViewerHandler.drawRouteOnMap(path);
         }
 
 

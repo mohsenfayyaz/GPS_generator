@@ -60,5 +60,11 @@
             <version>0.5.7</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jxmapviewer</groupId>
+            <artifactId>jxmapviewer2</artifactId>
+            <version>2.4</version>
+        </dependency>
+
     </dependencies>
 </project>
