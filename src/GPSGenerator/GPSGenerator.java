@@ -9,6 +9,7 @@ import com.grum.geocalc.Coordinate;
 import com.grum.geocalc.EarthCalc;
 import com.grum.geocalc.Point;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,11 +24,14 @@ public class GPSGenerator {
         for (PathWrapper path : myPathList) {
             System.out.println("-----------");
             System.out.println(path.getPoints());
+
+            new MapViewerHandler().drawRouteOnMap(path, Color.BLUE, "GRAPH HOPPER ROUTE");
+
             path = samplePath(path, sampleRateMeters);
             System.out.println(path.getPoints());
 
-            MapViewerHandler mapViewerHandler = new MapViewerHandler();
-            mapViewerHandler.drawRouteOnMap(path);
+
+            new MapViewerHandler().drawRouteOnMap(path, Color.GREEN, "SAMPLED ROUTE");
         }
 
 

@@ -10,6 +10,7 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -29,15 +30,11 @@ public class MapViewerHandler {
 
     public MapViewerHandler(){
         final JXMapKit  mapViewer = new JXMapKit();
-
-
     }
 
-    public void drawRouteOnMap(PathWrapper path){
-        List<GeoPosition> track = makeTrackFromGraphHopperPathWrapper(path);
-
+    private void renderFrame(String title){
         // Display the viewer in a JFrame
-        JFrame frame = new JFrame("JXMapviewer2 MohsenFayyaz.ir");
+        JFrame frame = new JFrame(title);
         frame.getContentPane().add(mapViewer);
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,8 +44,18 @@ public class MapViewerHandler {
         TileFactoryInfo info = new OSMTileFactoryInfo();
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         mapViewer.setTileFactory(tileFactory);
+    }
 
-        RoutePainter routePainter = new RoutePainter(track);
+    public void drawRouteOnMap(PathWrapper path, Color color) {
+        drawRouteOnMap(path, color, "MohsenFayyaz.ir");
+    }
+
+    public void drawRouteOnMap(PathWrapper path, Color color, String title){
+        List<GeoPosition> track = makeTrackFromGraphHopperPathWrapper(path);
+
+        renderFrame(title);
+
+        RoutePainter routePainter = new RoutePainter(track, color);
 
         // Set the focus
         mapViewer.getMainMap().zoomToBestFit(new HashSet<GeoPosition>(track), 0.7);
