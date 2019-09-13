@@ -11,7 +11,6 @@ public class Main {
 
         GPSGenerator myGPSGenerator = new GPSGenerator(osmFile);
         myGPSGenerator.generate(latFrom, lonFrom, latTo, lonTo, 70, 20, 20);
-
     }
 
 }

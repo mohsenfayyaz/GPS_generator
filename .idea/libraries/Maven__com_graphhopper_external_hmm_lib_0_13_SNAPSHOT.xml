@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.graphhopper.external:hmm-lib:0.13-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/graphhopper/external/hmm-lib/0.13-SNAPSHOT/hmm-lib-0.13-20190910.111243-20.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/graphhopper/external/hmm-lib/0.13-SNAPSHOT/hmm-lib-0.13-20190910.111243-20-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/graphhopper/external/hmm-lib/0.13-SNAPSHOT/hmm-lib-0.13-20190910.111243-20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

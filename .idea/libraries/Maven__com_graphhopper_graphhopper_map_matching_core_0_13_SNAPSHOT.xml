@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.graphhopper:graphhopper-map-matching-core:0.13-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/graphhopper/graphhopper-map-matching-core/0.13-SNAPSHOT/graphhopper-map-matching-core-0.13-20190910.111247-20.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/graphhopper/graphhopper-map-matching-core/0.13-SNAPSHOT/graphhopper-map-matching-core-0.13-20190910.111247-20-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/graphhopper/graphhopper-map-matching-core/0.13-SNAPSHOT/graphhopper-map-matching-core-0.13-20190910.111247-20-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

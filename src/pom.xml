@@ -66,5 +66,11 @@
             <version>2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.graphhopper</groupId>
+            <artifactId>graphhopper-map-matching-core</artifactId>
+            <version>0.13-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 </project>
