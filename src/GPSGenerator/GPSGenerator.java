@@ -23,7 +23,7 @@ public class GPSGenerator {
         myGHHandler = new GraphHopperHandler(osmFile);
     }
 
-    public void generate(double latFrom, double lonFrom, double latTo, double lonTo, double sampleRateMeters, double noiseStandardDeviation) {
+    public void generate(double latFrom, double lonFrom, double latTo, double lonTo, double sampleRateMeters, double noiseStandardDeviation, long samplingTimeScale) {
         List<PathWrapper> myPathList = myGHHandler.findRoutes(latFrom, lonFrom, latTo, lonTo);
         for (PathWrapper path : myPathList) {
             System.out.println("-----------");
@@ -38,7 +38,7 @@ public class GPSGenerator {
             new MapViewerHandler().drawRouteOnMap(path, Color.GREEN, "NOISY SAMPLED ROUTE");
 
 
-            GPXHandler.generateGpx("gpx.gpx", "gpx", path.getPoints());
+            GPXHandler.generateGpx("gpx.gpx", "gpx", path.getPoints(), samplingTimeScale); //10 seconds
         }
 
 

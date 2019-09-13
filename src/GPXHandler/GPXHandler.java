@@ -8,12 +8,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
 public class GPXHandler {
 
-    public static void generateGpx(String filePath, String name, PointList points) {
+    public static void generateGpx(String filePath, String name, PointList points, long timeScale) { // timeScale in seconds
         File file = new File(filePath);
         try {
             file.createNewFile();
@@ -27,12 +28,15 @@ public class GPXHandler {
         String segments = "";
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
-        Date date = new java.util.Date();
-
         Iterator<GHPoint3D> pointsIterator = points.iterator();
+
+        Calendar date = Calendar.getInstance();
+        long currentTime= date.getTimeInMillis();
+        int counter = 0;
         while (pointsIterator.hasNext()) {
             GHPoint3D currentPoint = pointsIterator.next();
-            segments += "<trkpt lat=\"" + currentPoint.lat + "\" lon=\"" + currentPoint.lon + "\"><time>" + df.format(new Date()) + "</time></trkpt>\n";
+            segments += "<trkpt lat=\"" + currentPoint.lat + "\" lon=\"" + currentPoint.lon + "\"><time>" + df.format(new Date(currentTime + 1000*timeScale*counter)) + "</time></trkpt>\n";
+            counter++;
         }
 
         String footer = "</trkseg></trk></gpx>";
